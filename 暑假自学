@@ -1,0 +1,19 @@
+欧几里得算法求最大公约数
+int gcd(int m, int n)
+{   
+    int r = 0;
+ 
+    if (n > m)
+    {
+        swap(m, n);
+    }
+    
+    while (n > 0)
+    {
+        r = m % n;
+        m = n;
+        n = r;
+    }
+ 
+    return m;
+}
