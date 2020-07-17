@@ -1,11 +1,10 @@
-欧几里得算法求最大公约数
 int gcd(int m, int n)
 {   
     int r = 0;
  
     if (n > m)
     {
-        swap(m, n);
+        swap(m, n); //保证m总是大于n
     }
     
     while (n > 0)
