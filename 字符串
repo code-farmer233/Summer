@@ -118,3 +118,201 @@ int main(){
 	printf("No Answer\n0");
 	return 0;
 }
+
+
+
+小书童——密码
+题目背景
+某蒟蒻迷上了“小书童”，有一天登陆时忘记密码了（他没绑定邮箱or手机），于是便把问题抛给了神犇你。
+题目描述
+蒟蒻虽然忘记密码，但他还记得密码是由一个字符串组成。密码是由原文字符串（由不超过 50 个小写字母组成）中每个字母向后移动 nn 位形成的。z 的下一个字母是 a，如此循环。他现在找到了移动前的原文字符串及 nn，请你求出密码。
+输入格式
+第一行：n。第二行：未移动前的一串字母
+输出格式
+一行，是此蒟蒻的密码
+输入输出样例
+输入
+1
+qwe
+输出 
+rxf
+说明/提示
+字符串长度<=50
+ac代码：
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main()
+{
+    string s;
+    int n,i,j;
+    cin>>n;
+    cin>>s;
+    for(i=0;i<s.size();++i)
+    {
+        for(j=1;j<=n;++j)
+        {
+            ++s[i];
+            if(s[i]>'z')
+            s[i]='a';
+        }
+    }
+    cout<<s;
+    return 0;
+}
+
+
+
+口算练习题
+题目描述
+王老师正在教简单算术运算。细心的王老师收集了i道学生经常做错的口算题，并且想整理编写成一份练习。 编排这些题目是一件繁琐的事情，为此他想用计算机程序来提高工作效率。王老师希望尽量减少输入的工作量，比如5+8的算式最好只要输入5和8，输出的结果要尽量详细以方便后期排版的使用，比如对于上述输入进行处理后输出 5+8=13 以及该算式的总长度6。王老师把这个光荣的任务交给你，请你帮他编程实现以上功能。
+输入格式
+第一行为数值i
+接着的i行为需要输入的算式，每行可能有三个数据或两个数据。
+若该行为三个数据则第一个数据表示运算类型，a表示加法运算，b表示减法运算，c表示乘法运算，接着的两个数据表示参加运算的运算数。
+若该行为两个数据，则表示本题的运算类型与上一题的运算类型相同，而这两个数据为运算数。
+输出格式
+输出2*i行。对于每个输入的算式，输出完整的运算式及结果，第二行输出该运算式的总长度
+输入输出样例
+输入 
+4
+a 64 46
+275 125
+c 11 99
+b 46 64
+输出 
+64+46=110
+9
+275+125=400
+11
+11*99=1089
+10
+46-64=-18
+9
+ac代码：
+#include <iostream>
+#include <string>
+#include <sstream>
+using namespace std;
+int main ()
+{
+	int n;
+	cin>>n;//输入n 
+	char ch;//要输入的字母 
+	string s[n];//存放最后的表达式 
+	for(int i=0;i<n;i++)//开始循环输入 
+	{
+		string st;//用来存放数字 
+		stringstream io;//转换数字 
+		int a,b,ans=0;//ans是答案 
+		if(!(cin>>a))//利用了cin的性质 
+		{
+			cin.clear();
+			cin>>ch>>a;
+		}
+		cin>>b;
+		io<<a;io>>s[i];io.clear();//接下来对ch进行判断 
+		if(ch=='a')
+		{
+			ans=a+b;
+			s[i]+='+';
+			io<<b;io>>st;io.clear();//io每次用完后要记得清空哦
+			s[i]+=st;
+			s[i]+='=';
+			io<<ans;io>>st;io.clear();
+			s[i]+=st;
+		}//以此类推
+	if(ch=='b')
+		{
+			ans=a-b;
+			s[i]+='-';
+			io<<b;io>>st;io.clear();
+			s[i]+=st;
+			s[i]+='=';
+			io<<ans;io>>st;io.clear();
+			s[i]+=st;
+		}
+	if(ch=='c')
+		{
+			ans=a*b;
+			s[i]+='*';
+			io<<b;io>>st;io.clear();
+			s[i]+=st;
+			s[i]+='=';
+			io<<ans;io>>st;io.clear();
+			s[i]+=st;
+		}
+	}
+	for(int i=0;i<n;i++)//循环输出结果 
+	{
+		cout<<s[i]<<endl;
+		cout<<s[i].size();
+		if(i!=n-1)cout<<endl;
+	}
+}
+
+
+
+自动修正
+题目描述
+大家都知道一些办公软件有自动将字母转换为大写的功能。输入一个长度不超过 100 且不包括空格的字符串。要求将该字符串中的所有小写字母变成大写字母并输出。
+输入格式
+无
+输出格式
+无
+输入输出样例
+输入 
+Luogu4!
+输出 
+LUOGU4!
+ac代码：
+#include<bits/stdc++.h>
+using namespace std;
+char ch;
+int main(){
+	if(cin>>ch){//判断是否输入 
+		if(ch>='a'&&ch<='z')ch+='A'-'a';//转换大小写 
+		cout<<ch;//输出 
+		main();//递归调用 
+	} 
+	return 0;//如果没有输入就退出 
+}
+
+
+
+单词覆盖还原
+题目描述
+一个长度为 l(3\le l\le255)l(3≤l≤255) 的字符串中被反复贴有 boy 和 girl 两单词，后贴上的可能覆盖已贴上的单词（没有被覆盖的用句点表示），最终每个单词至少有一个字符没有被覆盖。问贴有几个 boy 几个 girl？
+输入格式
+一行被被反复贴有boy和girl两单词的字符串。
+输出格式
+两行，两个整数。第一行为boy的个数，第二行为girl的个数。
+输入输出样例
+输入 
+......boyogirlyy......girl.......
+输出
+4
+2
+ac代码：
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+int boy,girl;
+string x;
+int main(){
+   cin>>x;
+   for(int i=0;i<x.length();i++){
+   	//boy
+   	if(x[i]=='b')boy++;
+   	if(x[i]=='o'&&x[i-1]!='b')boy++;
+   	if(x[i]=='y'&&x[i-1]!='o')boy++;
+   	//girl
+   	if(x[i]=='g')girl++;
+   	if(x[i]=='i'&&x[i-1]!='g')girl++;
+   	if(x[i]=='r'&&x[i-1]!='i')girl++;
+   	if(x[i]=='l'&&x[i-1]!='r')girl++;
+   }
+   cout<<boy<<endl<<girl<<endl;
+   return 0;
+}
