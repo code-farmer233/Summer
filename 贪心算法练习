@@ -1,0 +1,111 @@
+排队接水
+题目描述
+有 n个人在一个水龙头前排队接水，假如每个人接水的时间为 Ti，请编程找出这 n 个人排队的一种顺序，使得 n 个人的平均等待时间最小。
+输入格式
+第一行为一个整数 n。
+第二行 n个整数，第 i 个整数 Ti表示第 i 个人的等待时间 Ti。
+输出格式
+输出文件有两行，第一行为一种平均时间最短的排队顺序；第二行为这种排列方案下的平均等待时间（输出结果精确到小数点后两位）。
+输入输出样例
+输入
+10 
+56 12 1 99 1000 234 33 55 99 812
+输出 
+3 2 7 8 1 4 9 6 10 5
+291.90
+ac代码：
+#include"iostream"
+#include"cstdio"
+#include"algorithm"
+using namespace std;
+struct a  
+{
+ int b,num;
+};
+bool cmp(a x,a y)
+{
+ return x.b<y.b;    
+}
+int main()
+{
+ struct a a[1010];
+ int n,i,j;
+ double time=0;
+ cin>>n;    
+ for(i=1;i<=n;i++)   
+  {
+   cin>>a[i].b;
+   a[i].num=i;             
+  } 
+ sort(a+1,a+n+1,cmp);
+  for(i=1;i<=n;i++)
+  {
+   cout<<a[i].num<<" "; 
+  }
+  cout<<endl;//要换行
+  for(j=n-1;j>=1;j--) 
+  {
+   i=n-j;
+   time+=a[i].b*j;                  
+  }
+ printf("%.2lf",time/n);
+  return 0; 
+}
+
+
+
+部分背包问题
+题目描述
+阿里巴巴走进了装满宝藏的藏宝洞。藏宝洞里面有 N(N≤100) 堆金币，第 i 堆金币的总重量和总价值分别是mi,vi(1≤mi,vi≤100)。
+阿里巴巴有一个承重量为T(T≤1000) 的背包，但并没办法将全部的金币都装进去。他想装走尽可能多价值的金币。所有金币都可以随意分割，分割完的金币重量价值比（也就是单位价格）不变。
+请问阿里巴巴最多可以拿走多少价值的金币？
+输入格式
+第一行两个整数 N、T
+接下来 N 行，每行两个整数mi,vi输出格式
+一个整数表示答案，输出两位小数
+输入输出样例
+输入 
+4 50
+10 60
+20 100
+30 120
+15 45
+输出 
+240.00
+ac代码：
+#include <bits/stdc++.h>
+using namespace std;
+struct Node{
+	int w,v;
+}a[110];
+int read(){
+	int x=0,f=1;
+	char c=getchar();
+	while(c<'0'||c>'9'){
+		if(c=='-') f=-1;
+		c=getchar();
+	}
+	while(c>='0'&&c<='9'){
+		x=x*10+c-'0';
+		c=getchar();
+	}
+	return x*f;
+}
+bool cmp(Node aa,Node bb){
+	return aa.v*bb.w>aa.w*bb.v;
+}
+int main(){
+	int n=read(),m=read();
+	double ans=0;
+	for(int i=1;i<=n;i++) a[i].w=read(),a[i].v=read();
+	sort(a+1,a+n+1,cmp);
+	for(int i=1;i<=n;i++){
+		if(a[i].w<=m) ans+=a[i].v,m-=a[i].w;
+		else{
+			ans+=a[i].v*m*1.0/(a[i].w*1.0)；
+			break;
+		}
+	}
+	printf("%.2lf",ans);
+	return 0;
+}
