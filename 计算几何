@@ -1,0 +1,60 @@
+判断点是否在线段上
+问题描述
+已知点Q，线段为P1P2，试判断点Q是否在线段P1P2上。
+
+解决思路
+1)首先判断Q是否在直线P1P2上。
+判断方法：用叉乘，QP1 × P1P2 = 0，即（Q - P1) *(P1 - P2) = 0;
+2)考虑Q是否在P1P2的反向延迟线上，即Q在以P1、P2为对角顶点的矩形内。
+判断方法：设Q(a,b)，P1(x1,y1)，P2（x2,y2)且x1 < x2，y1 < y2，则要求 x1 ≤ a ≤ x2，y1 ≤ b ≤ y2.
+
+代码:
+#include<iostream>
+using namespace std;
+ #define  TRUE 1
+#define  FALSE 0
+struct point
+{
+	double x;
+	double y;
+};
+ int min(int x,int y)
+{
+	if(x < y)
+		return x;
+	else
+		return y;
+}
+ 
+int max(int x,int y)
+{
+	if(x > y)
+		return x;
+	else
+		return y;
+}
+ 
+int Online(point P1,point P2,point Q)
+{
+	if(    (Q.x - P1.x) * (P2.y - P1.y) == ((P2.x - P1.x) * (Q.y - P1.y))  //叉乘
+ 
+		   &&( min(P1.x,P2.x) <= Q.x && Q.x <= max(P1.x,P2.x))
+		   //保证Q点坐标在P1P2之间
+		   && min(P1.y,P2.y) <= Q.y && Q.y <= max(P1.y,P2.y)     )
+		return TRUE;
+	else
+		return FALSE;
+}
+ 
+int main()
+{
+	point p1,p2,q;
+	cin>>p1.x>>p1.y;
+	cin>>p2.x>>p2.y;
+	cin>>q.x>>q.y;
+	if(Online(p1,p2,q))
+		cout<<"Q点在线段P1P2内"<<endl;
+	else
+		cout<<"Q点不在线段P1P2内"<<endl;
+	return 0;
+}
