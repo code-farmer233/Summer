@@ -1,0 +1,17 @@
+高次方求模：
+比如a的b次方对c求模
+我们可以把b 化为二进制形式看那一位有1
+比如b=10101则  a^b=a^(10000)*a^(100)*a^(1)
+以函数形式体现：
+long long a,b,c;
+void han()
+{
+    long long t,s;
+    for(t=a,s=1;b;b>>=1,t*=t,t%=c)//用b>>=1查看b中1
+     if(b&1)
+     {
+     s*=t;
+     s%=c;
+     }
+    printf("%lld\n",s%c); 
+}
