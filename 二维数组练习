@@ -1,0 +1,116 @@
+杨辉三角
+输入行数n，输出对应行数的杨辉三角。
+杨辉三角格式如下：
+     1	
+    1  1
+   1  2  1
+  1  3  3  1
+1  4  6  4  1
+  
+规则：1.每一行元素数等于行数
+      2.每一个元素值等于前一行同列元素与前一行前一列元素之和
+代码如下：
+public static void CreatYH(int n){
+  int[][] arr = new int[n][n];//创建一个n行n列的数组，存放元素
+  arr[0] = Arrays.copyOf(arr[0], 1);//初始化前两行数组长度
+  arr[1] = Arrays.copyOf(arr[1], 2);
+  for(int i = 0; i<n;i++){//初始化数组元素值
+   arr[i][0]=1;
+   arr[i][i]=1;
+  }
+  for(int i = 3;i<=n;i++){
+   for(int j = 2;j<i;j++){
+    arr[i-1][j-1]=arr[i-2][j-1]+arr[i-2][j-2];//赋值
+   }
+   arr[i-1] = Arrays.copyOf(arr[i-1], i);//裁剪数组
+  }
+  for(int i = 0; i<n;i++){
+   System.out.println(Arrays.toString(arr[i]));//输出
+  }
+ }
+
+
+螺旋填数
+创建一个m行n列的数组，将1–m*n的数字螺旋填入，方向为右下左上
+输出效果为：
+[1 , 2 , 3 , 4 , 5]
+[14, 15, 16, 17, 6]
+[13, 20, 19, 18, 7]
+[12, 11, 10, 9, 8]
+
+代码如下：
+public static void FillNum(int m,int n){
+  int[][] arr = new int[m][n];//初始化
+  int x = 0;//行数
+  int y = 0;//列数
+  int contral = 0;//方向控制变量
+  for(int i = 0;i<m;i++){
+   for(int j = 0; j<n;j++){
+    arr[i][j] = 0;
+   }
+  }
+  int[][] deriction = {{0,1},{1,0},{0,-1},{-1,0}};//创建方向数组
+  arr[0][0] = 1;
+  for(int i = 2; i<=m*n;i++){
+   x+=deriction[contral][0];
+   y+=deriction[contral][1];
+   arr[x][y] = i;//填数
+   if((x==0&&y==n-1)||
+     (y==n-1&&x==m-1)||(x==m-1&&y==0)||
+     arr[x+deriction[contral][0]][y+deriction[contral][1]]!=0){
+    //方向控制判断语句
+    contral++;//更改方向
+    if(contral==4)
+     contral=0;//重置方向
+   }
+  }
+  for(int i = 0;i<m;i++){
+   System.out.println(Arrays.toString(arr[i]));//输出
+  }
+ }
+
+
+装睡
+描述：你永远叫不醒一个装睡的人 —— 但是通过分析一个人的呼吸频率和脉搏，你可以发现谁在装睡！医生告诉我们，正常人睡眠时的呼吸频率是每分钟15-20次，脉搏是每分钟50-70次。下面给定一系列人的呼吸频率与脉搏，请你找出他们中间有可能在装睡的人，即至少一项指标不在正常范围内的人。
+输入格式：
+输入在第一行给出一个正整数N（≤10）。随后N行，每行给出一个人的名字（仅由英文字母组成的、长度不超过3个字符的串）、其呼吸频率和脉搏（均为不超过100的正整数）。
+输出格式：
+按照输入顺序检查每个人，如果其至少一项指标不在正常范围内，则输出其名字，每个名字占一行。
+输入样例：
+4
+Amy 15 70
+Tom 14 60
+Joe 18 50
+Zoe 21 71
+输出样例：
+Tom
+Zoe
+代码：
+#include<stdio.h>
+main()
+{
+ int N;
+ scanf("%d",&N);
+ int i;
+ char a[10][10];
+ for(i=0;i<=N;i++)
+ {
+  gets(a[i]);
+ }
+ for(i=0;i<N;i++)
+ {
+  if
+  (
+      !(
+     ((a[i][4]-'0')*10+(a[i][5]-'0'))>=15
+   &&((a[i][4]-'0')*10+(a[i][5]-'0'))<=20
+    )
+   ||
+   !(
+     ((a[i][7]-'0')*10+(a[i][5]-'0'))>=50
+   &&((a[i][7]-'0')*10+(a[i][8]-'0'))<=70
+   )
+  )
+  printf("%c%c%c\n",a[i][0],a[i][1],a[i][2]);
+ }
+}
