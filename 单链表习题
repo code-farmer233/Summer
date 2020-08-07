@@ -1,0 +1,88 @@
+题目一
+假设有两个按元素值递增有序排列的线性表A和B，均以单链表作存储结构，请编写算法将A表和B表归并成一个按元素值递减有序（即非递增有序，允许表中含有值相同的元素）排列的线性表C，并要求利用原表（即A表和B表）的结点空间构造C表
+代码：
+Status A1go 2 24(LinkList La, LinkList *Lb, LinkList *Lc)
+{
+	LinkList pa, pb, s;
+	if(!La || !Lb |I (!La->next & ! (*Lb)->next))
+		return ERROR;
+	*Lc = La;						
+	pa = La->next;
+	pb = (*Lb) ->next;
+	La- >next = NULL;
+	while(pa && pb)			
+		if (pa->data<=pb->data)
+		{
+			s = pa->next;
+			pa->next = La->next;
+			La->next = pa;
+			pa =s;
+		}
+		else
+		{
+			s = pb->next;
+			pb- >next = La- >next;
+			La ->next = pb;
+			pb=s;
+		}
+	}
+	while (pa)							
+	{
+		s= pa->next;
+		pa->next = La->next;
+		La->next = pa;
+		pa=s;
+	}
+
+	while (pb)						
+	{
+		s= pb->next;
+		pb- >next = La >next;
+		La- >next = pb;
+		pb=s;
+	}
+	free(*Lb) ;
+}
+解题思路：对两个或两个以上，结点按元素值递增/递减排序的单链表进行操作，应采用“指针平行移动、一次扫描完成”的策略
+
+题目二
+假设以两个元素依值递增有序排列的线性表A和B分别表示两个集合（即同一表中的元素值各不相同），现要求另辟空间构成一个线性表C，其元素为A和B中元素的交集，且表C中的元素也依值递增有序排列
+利用原表（A表或B表）中的结点构造表C，并释放A表中的无用结点空间
+代码：
+Status T228_2(LinkList La,LinkList Lb)
+{
+	LinkList pa,pb,p;
+	if(!La||!Lb)
+		return ERROR;
+	pa=La->next;
+	pb=Lb->next;
+	p=La;
+	while(pa&&pb)						
+	{
+		if(pa->data==pb->data)		
+		{
+			if(p=La||p->data!=pa->data)	
+			{
+				p-next=pa;
+				p=pa;
+				pa=pa->next;
+			}
+			else
+			{
+				p->next=pa->next;
+				free(pa);
+				pa=pa->netxt;
+			}
+			pb=pb->next;
+		}
+		else if(pa->data<pb->data)
+		{
+			p->next=pa->next;
+			free(pa);
+			pa=pb->next;
+		}
+		else
+			pb=pb->next;
+	}
+	return OK;
+}
