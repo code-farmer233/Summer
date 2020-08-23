@@ -114,3 +114,138 @@ main()
   printf("%c%c%c\n",a[i][0],a[i][1],a[i][2]);
  }
 }
+
+
+
+树状数组1
+题目描述
+如题，已知一个数列，你需要进行下面两种操作：
+将某一个数加上 x，求出某区间每一个数的和
+输入格式
+第一行包含两个正整数 n,m分别表示该数列数字的个数和操作的总个数。
+第二行包含 n 个用空格分隔的整数，其中第 i 个数字表示数列第 i 项的初始值。
+接下来 m 行每行包含 3 个整数，表示一个操作，具体如下：
+1 x k 含义：将第 x 个数加上 k
+2 x y 含义：输出区间 [x,y] 内每个数的和
+输出格式
+输出包含若干行整数，即为所有操作 2 的结果。
+输入输出样例
+输入 
+5 5
+1 5 4 2 3
+1 1 3
+2 2 5
+1 3 -1
+1 4 2
+2 1 4
+输出 
+14
+16
+代码：
+#include "cstdio"
+#include "algorithm"
+using namespace std;
+typedef long long ll;
+#define MAXN 500006
+struct query{ll x,c,opt,cnt,ct;}q[MAXN*3],t[MAXN*3];
+ll n,m,A[MAXN],cnt,ct,ans[MAXN],S[MAXN];
+bool cmp(query a,query b){ return a.x != b.x ? a.x < b.x : a.opt > b.opt; }
+void cdq(ll l,ll r);
+int main(){
+    scanf("%lld%lld",&n,&m);
+    for(ll i=1;i<=n;++i) scanf("%lld",&A[i]),S[i] = S[i-1] + A[i];
+    for(ll i=1,opt,x,x2,c;i<=m;++i){
+        scanf("%lld",&opt);
+        if(opt == 1) ++cnt,scanf("%lld%lld",&q[cnt].x,&q[cnt].c),q[cnt].opt=1,q[cnt].cnt=cnt;
+        else scanf("%lld%lld",&x,&x2),++ct,++cnt,q[cnt] = {x-1,-1,0,cnt,ct},++cnt,q[cnt] = {x2,1,0,cnt,ct},ans[ct] = S[x2] - S[x-1];
+    }
+    sort(q+1,q+1+cnt,cmp);
+    cdq(1,cnt);
+    for(ll i=1;i<=ct;++i) printf("%lld\n",ans[i]);
+}
+void cdq(ll l,ll r){
+    if(l == r) return;
+    ll m = l + r >> 1,s = 0;
+    for(ll i=l;i<=r;++i)
+        if(q[i].cnt <= m && q[i].opt) s += q[i].c;
+        else if(q[i].cnt > m && !q[i].opt) ans[q[i].ct] += s * q[i].c;
+    ll l1 = l , l2 = m + 1;
+    for(ll i=l;i<=r;++i) if(q[i].cnt <= m) t[l1++] = q[i]; else t[l2++] = q[i];
+    for(ll i=l;i<=r;++i) q[i] = t[i];
+    cdq(l,m),cdq(m+1,r);
+}
+
+
+
+树状数组2
+题目描述
+如题，已知一个数列，你需要进行下面两种操作：
+1：将某区间每一个数数加上 x。
+2：求出某一个数的值。
+输入格式
+第一行包含两个整数 N、M，分别表示该数列数字的个数和操作的总个数。
+第二行包含 N 个用空格分隔的整数，其中第 i 个数字表示数列第 i 项的初始值。
+接下来 M 行每行包含 2 或 4个整数，表示一个操作，具体如下：
+操作 1： 格式：1 x y k 含义：将区间 [x,y] 内每个数加上 k；
+操作 2： 格式：2 x 含义：输出第 x 个数的值。
+输出格式
+输出包含若干行整数，即为所有操作 2 的结果。
+输入输出样例
+输入
+5 5
+1 5 4 2 3
+1 2 4 2
+2 3
+1 1 5 -1
+1 3 5 7
+2 4
+输出
+6
+10
+代码：
+#include <iostream>
+#include <cstdio>
+#define lowbit(x) x & -x
+using namespace std;
+long long tree[500005];
+int n, m;
+void add(int x, long long num) {
+    while (x <= n) {
+        tree[x] += num;
+        x += lowbit(x);
+    }
+}
+long long query(int x) {
+    long long ans = 0;
+    while (x) {
+        ans += tree[x];
+        x -= lowbit(x);
+    }
+    return ans;
+}
+int main() {
+    freopen("in.txt", "r", stdin);
+    scanf("%d%d", &n, &m);
+    long long last = 0, now;
+    for (int i = 1; i <= n; i++) {
+        scanf("%lld", &now);
+        add(i, now - last);
+        last = now;
+    }
+    int flg;
+    while (m--) {
+        scanf("%d", &flg);
+        if (flg == 1) {
+            int x, y;
+            long long k;
+            scanf("%d%d%lld", &x, &y, &k);
+            add(x, k);
+            add(y + 1, -k);
+        } else if (flg == 2) {
+            int x;
+            scanf("%d", &x);
+            printf("%lld\n", query(x));
+        }
+    }
+    return 0;
+}
