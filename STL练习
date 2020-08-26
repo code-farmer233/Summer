@@ -19,9 +19,7 @@ FINISH
 No.
 FINISH
 AC代码：
-#include<stdio.h>
-#include<string.h>
-#include<stack>
+#include <bits/stdc++.h>
 using namespace std;
 int main()
 {
@@ -81,9 +79,7 @@ int main()
 样本输出
 3
 AC代码:
-#include<cstdio>
-#include<cstring>
-#include<queue>
+#include <bits/stdc++.h>
 using namespace std;
 int T,N,A,B;
 int mp[220],f[220];
@@ -127,8 +123,7 @@ int main()
 
 题意：现有N个大理石，每个大理石上写了一个非负整数，首先把各数从小到大排序，然后回答Q个查询问题，查询整数x是否存在，若存在给出位置。排序后的大理石从左到右编号为1-N
 AC代码：
-#include <iostream>
-#include <algorithm>
+#include <bits/stdc++.h>
 using namespace std;
 const int MAXN = 10000;
 int main()
