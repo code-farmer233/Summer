@@ -2,10 +2,7 @@
 康托展开的公式：
 X=a[n]*(n-1)!+a[n-1]*(n-2)!+...+a[i]*(i-1)!+...+a[1]*0! 
 康托展开代码：（假设排列数不超过20个）
-#include<iostream>
-#include<cstdio>
-#include<vector>
-#include<algorithm>
+#include <bits/stdc++.h>
 using namespace std;
 
 int f[20];
@@ -56,10 +53,7 @@ int main()
 
 用1/1!=11/1!=1余00，说明在第四位之后小于第四位的数有11个，所以第四位为44（2,3,5都取过了），余数继续辗转。
 康托逆展开代码：（假设排列数不超过20个） 
-#include<iostream>
-#include<cstdio>
-#include<vector>
-#include<algorithm>
+#include <bits/stdc++.h>
 using namespace std;
  
 int f[20];
