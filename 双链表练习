@@ -1,0 +1,67 @@
+1.在带头结点的双链表中的第一个值为X的节点之前插入元素值为y的节点（假设双链表中不存在两个至于相同的节点）。
+//在值域为x的节点之前插入值域为y的节点 
+void special_insert(Dlinklist **head, int x, int y)	
+{
+	linklist L = (*head) -> next, p;
+	while(L && L -> data != x)	//遍历链表找对应的节点 
+		L = L -> next;
+	if(!L)			//如果没有找到对应节点 
+		puts("没有找打对应节点");
+	else
+	{
+		p = (linklist)malloc(sizeof(Dlinklist));		//创建新节点 
+		p -> data = y;				//新结点数据域赋值
+		L -> prior -> next = p;		//值域x的节点之前的节点的后继指针指向新节点
+		p -> prior = L -> prior;
+		L -> prior = p;
+		p -> next = L; 
+		puts("插入成功,插入后的链表");
+	}
+}
+
+2.在双链表中设计算法查找第一个元素为x的节点，将其与后继节点进行交换。
+void swap(linklist L, int x)	//p是当前节点,q是其后继节点 
+{
+	linklist p = L -> next, q;
+	while(p && p -> data != x)
+		p = p -> next;
+	if(!p)		//如果没有找到该节点
+		puts("没有该节点，请重试");
+	else
+	{
+		q = p -> next;		//指向对应的后继节点
+		if(q)				//如果没有后继节点 
+		{
+			p -> prior -> next = q;
+			q -> prior = p -> prior;
+			p -> next = q -> next;
+			if(!q -> next)	//如果后继节点的后继节点不存在
+				q -> next -> prior = p;
+			q -> next = p;
+			p -> prior = q; 
+			printf("交换数据域为%d的节点与其后继节点之后的链表为\n", x);
+			print(L);
+		} 
+		else
+			puts("无法进行交换");
+	} 
+}
+
+3.将双链表中的所有节点逆置。
+void reverse(linklist *head)
+{
+	linklist p = (*head) -> next, q;
+	//逆置之后第一个有数据的节点将会变成最后一个节点，因此要置空
+	(*head) -> next = NULL;		 
+	while(p)
+	{
+		q = p -> next;			//用q保存p的后继节点
+		p -> next = (*head) -> next;
+		if((*head) -> next)
+			(*head) -> next -> prior = p;
+		(*head) -> next = p;
+		p -> prior = (*head);
+		p = q; 						//继续处理剩下的节点
+	} 
+	puts("逆置之后的链表为");
+}
