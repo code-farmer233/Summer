@@ -41,8 +41,7 @@ abcabd
 样例输出
 c
 ac代码：
-#include<iostream>
-#include<cstring> 
+#include <bits/stdc++.h> 
 using namespace std;
 int a[128]={0};
 char b[100010];
@@ -139,8 +138,7 @@ rxf
 说明/提示
 字符串长度<=50
 ac代码：
-#include<iostream>
-#include<cstring>
+#include <bits/stdc++.h>
 using namespace std;
 int main()
 {
@@ -190,9 +188,7 @@ b 46 64
 46-64=-18
 9
 ac代码：
-#include <iostream>
-#include <string>
-#include <sstream>
+#include <bits/stdc++.h>
 using namespace std;
 int main ()
 {
@@ -294,9 +290,7 @@ int main(){
 4
 2
 ac代码：
-#include<iostream>
-#include<cstring>
-#include<algorithm>
+#include <bits/stdc++.h>
 using namespace std;
 int boy,girl;
 string x;
