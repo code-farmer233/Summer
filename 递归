@@ -1,1 +1,69 @@
+1.一个人赶着鸭子去每个村庄卖，每经过一个村子卖去所赶鸭子的一半又一只。这样他经过了七个村子后还剩两只鸭子，问他出发时共赶多少只鸭子？经过每个村子卖出多少只鸭子？
+分析：
+设经过的村子为n (n = 0,1,2,...,7)，根据题目分析可知递归结束的出口: n = 7时，剩余鸭子数rest = 2;
+分析递归体：从后向前推 n=7时 ，reset = 2， 由于每经过一个村子，卖去所赶鸭子的一半又一只，因此七个村子后剩余的鸭子数 rest[7] = rest[6] - (rest[6]/2 + 1)
+反推rest[6] = (rest[7] + 1) * 2
+最终递归体: (rest[n+1] + 1) * 2;
+综上   n=7      rest=2
+      0<=n<7    rest=(rest(n+1) + 1) * 2
+代码：
+#include<stdio.h>
+int leftDucksNum(int n)
+{
+	if(n == 7)   
+		return 2;
+	else
+		return 2*(leftDucksNum(n+1)+1);    
+}
+int sellDucks() {	
+	for(int i=1; i<8; i++)
+	{
+		printf("第%d村庄卖出鸭子数为：%d,剩余鸭子数为：%d\n", i, (leftDucksNum(i-1)/2+1), leftDucksNum(i));    
+	}
+	return 0;
+} 
+void main()
+{
+	printf("鸭子的总数：%d\n", leftDucksNum(0)); 
+	sellDucks();
+}
 
+
+
+2.角谷定理。输入一个自然数，若为偶数，则把它除以2，若为奇数，则把它乘以3加1。经过如此有限次运算后，总可以得到自然数值1。求经过多少次可得到自然数1。
+如：输入22，
+输出 22 11 34 17 52 26 13 40 20 10 5 16 8 4 2 1
+分析：
+递归出口：当输入的数字为1时，则直接输出
+递归体：当输入数据不为1时
+当数据为偶数：除以2,递归直到数据为1，输出
+当数据为奇数：乘3再加1，递归直至数据为1，输出
+代码：
+#include<stdio.h>
+int jiaogu(int step, int num)
+{
+	if(1 == num)
+	{
+		return step;
+	}
+	else if(0 == num % 2)
+	{
+		printf("%d ", num/2);     
+		++step;       
+		return jiaogu(step,num/2);     
+	}
+	else
+	{
+		printf("%d ", num*3 + 1);
+		++step;  //次数加一
+		return jiaogu(step, num*3 + 1);  
+	}
+}
+void main()
+{
+	int num;
+	int step = 0;
+	printf("请输入一个自然数:");
+	scanf("%d", &num);
+	printf("\nstep = %d\n", jiaogu(step, num));
+}
