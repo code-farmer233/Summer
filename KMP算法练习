@@ -1,0 +1,60 @@
+给出一个母串和一个子串，然后输出子串第一次出现在母串中的位置。
+#include <stdio.h>
+#include <string.h>
+using namespace std;
+const int MAXN = (int) 1e6 + 7;
+int n, m;      
+int t[MAXN]; 
+int s[MAXN];  
+int next[MAXN];
+void getNext(int length)
+{
+	memset(next, 0, sizeof(next));
+	next[0] = -1;
+	int j = 0;
+	int k = -1;
+	while(j < length)
+	{
+		if(k == -1 || t[j] == t[k])
+		{
+			next[++j] = ++k;
+		}
+		else
+			k = next[k];
+	}
+}
+int kmp()
+{
+    int i = 0;
+    int j = 0;
+    while(i < n && j < m)
+    {
+        if(s[i] == t[j])
+            i++, j++;
+        else if(j == -1)
+            i++;
+        else
+            j = next[j];
+    }
+    if(j == m)
+        return i - m + 1;
+    else
+        return -1;
+}
+int main()
+{
+    int num;
+    scanf("%d", &num);
+    while( num-- )
+    {
+        scanf("%d%d", &n, &m);
+        for(int i=0; i<n; i++)
+            scanf("%d", &s[i]);
+        for(int i=0; i<m; i++)
+            scanf("%d", &t[i]);
+        getNext(m);
+        printf("%d\n", kmp());
+ 
+    }
+	  return 0;
+}
