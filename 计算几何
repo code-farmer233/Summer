@@ -97,3 +97,135 @@ int main()
 	
 	return 0;
 }
+
+
+
+判断矩形是否包含点
+Description
+对于一个已知的矩形，判断输入的点是否包含在该矩形内。
+矩形用对角线上的两个点来定义（左下角点和右上角点）。
+已知矩形的左下角点为（1,1），右上角点为（5,5）。
+要求编写一个函数判断点是否在矩形内，如果在内则返回1，否则返回-1
+主函数调用该判断函数，如果返回1则输出in，返回-1则输出out
+Input
+输入点的个数和每个点的坐标
+Output
+在矩形内部还是外部
+Sample Input
+3
+1 1
+5 5
+5 10
+Sample Output
+in
+in
+out
+代码：
+#include <bits/stdc++.h>
+using namespace std;
+int judge(int x,int y)
+{
+    if(x>=1 && x<=5 && y>=1 && y<=5)
+    {
+        return 1;
+    }
+    else
+    {
+        return -1;
+    }
+}
+int main()
+{
+    int N;
+    cin>>N;
+    while(N--)
+    {
+        int x,y;
+        cin>>x>>y;
+        if(judge(x,y)==1)
+        {
+            cout<<"in"<<endl;
+        }
+        else
+        {
+            cout<<"out"<<endl;
+        }
+    }
+    return 0;
+}
+
+
+
+判断圆与矩形关系
+问题：在一个坐标系中，有一个圆和一个矩形，判断圆和矩形是否相交，输入圆心坐标，圆的半径，和矩形中一对对角线中两个点的坐标
+思路：圆和矩形相交有大概可分为两种情况
+　　　情况一：矩形的顶点在圆内，
+　　　情况二：矩形的顶点不在圆内，矩形的边和圆相交
+代码：
+#include <bits/stdc++.h>
+using namespace std;
+double a, b, xa, ya, xb, yb, r;
+double far(double n1, double m1, double n2, double m2)
+{
+    double ans;
+    ans = (n1 - n2) * (n1 - n2) +(m1 - m2) * (m1 - m2);
+    ans = sqrt(ans);
+    return ans;
+}
+int main()
+{
+    int T;
+    scanf("%d", &T);
+    while(T--)
+    {
+        scanf("%lf%lf%lf%lf%lf%lf%lf", &a, &b, &r, &xa, &ya, &xb, &yb);
+        if (
+                far(xa, ya, a, b) < r &&
+                far(xa, yb, a, b) < r &&
+                far(xb, ya, a, b) < r &&
+                far(xb, yb, a, b) < r 
+            )
+        {
+            printf("NO\n");
+            continue;
+        }
+        else if (
+                    far(xa, ya, a, b) > r &&
+                    far(xa, yb, a, b) > r &&
+                    far(xb, ya, a, b) > r &&
+                    far(xb, yb, a, b) > r &&
+                    far(xa, ya, xb, ya) > 2*r &&
+                    far(xa, ya, xa, yb) > 2*r 
+                )
+        {
+            printf("NO\n");
+            continue;
+        }
+        else if (
+                    far(xa, ya, a, b) <= r ||
+                    far(xa, yb, a, b) <= r ||
+                    far(xb, ya, a, b) <= r ||
+                    far(xb, yb, a, b) <= r     
+                )
+        {
+            printf("YES\n");
+            continue;
+        }
+        else if(
+                    (far(xa, b, a, b) <= r && b < max(ya, yb) && b > min(ya, yb))||
+                    (far(xb, b, a, b) <= r && b < max(ya, yb) && b > min(ya, yb))||
+                    (far(a, ya, a, b) <= r && a < max(xa, xb) && a > min(xa, xb))||
+                    (far(a, yb, a, b) <= r && a < max(xa, xb) && a > min(xa, xb)) 
+                )
+        {
+            printf("YES\n");
+            continue;
+        }
+        else
+        {
+            printf("NO\n");
+            continue;
+        }
+    }
+    return 0;
+}
